@@ -8,10 +8,10 @@ export function sortStrings(arr, param = 'asc') {
     const sorted = [...arr];
 
     function compareString(str1, str2) {
-        if (str1.localeCompare(str2, 'ru', {caseFirst: 'upper'}) >= 1) {
-            return param == 'asc' ? 1 : -1;
-        } else if (str1.localeCompare(str2, 'ru', {caseFirst: 'upper'}) <= -1){
-            return param == 'asc' ? -1 : 1;
+        if (str1.localeCompare(str2, ['ru', 'en'], {caseFirst: 'upper'}) >= 1) {
+            return param === 'asc' ? 1 : -1;
+        } else if (str1.localeCompare(str2, ['ru', 'en'], {caseFirst: 'upper'}) <= -1){
+            return param === 'asc' ? -1 : 1;
         }
         return 0;
     }
