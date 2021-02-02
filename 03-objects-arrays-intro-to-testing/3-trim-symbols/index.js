@@ -13,8 +13,8 @@ export function trimSymbols(string, size = string.length) {
         currentLetter = '',
         currentSize = 0;
 
-    for(const letter of string) {
-        if ( currentLetter !== letter) {
+    for (const letter of string) {
+        if (currentLetter !== letter) {
             currentLetter = letter;
             cutString += letter;
             currentSize = 1;

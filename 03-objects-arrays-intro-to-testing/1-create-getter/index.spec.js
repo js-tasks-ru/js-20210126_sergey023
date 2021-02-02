@@ -48,8 +48,6 @@ describe('objects-arrays-intro-to-testing/create-getter', () => {
   it('returns undefined for no nested.property', () => {
     const getter = createGetter('nested.property');
 
-    console.log(getter({}));
-
     expect(getter({})).toBeUndefined();
   });
 
