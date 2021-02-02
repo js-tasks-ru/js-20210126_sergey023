@@ -6,7 +6,6 @@
 export function createGetter(path) {
     return function(obj) {
         const pathArr = path.split('.');
-
         let value = obj;
 
         for (const item of pathArr) {
