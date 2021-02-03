@@ -12,7 +12,7 @@ export function createGetter(path) {
             if (item in value) {
                 value = value[item];
             } else {
-                return undefined;
+                return;
             }
         }
 
