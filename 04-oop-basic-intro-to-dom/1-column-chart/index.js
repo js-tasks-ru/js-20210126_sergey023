@@ -27,7 +27,6 @@ export default class ColumnChart {
 
     getList(newData) {
         const maxElement = this.data && Math.max(...this.data);
-
         const list = this.data && this.data.reduce((list,item) => {
             const value = item * (this.chartHeight / maxElement);
             const persent = item / maxElement * 100;
