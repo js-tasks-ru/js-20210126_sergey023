@@ -34,7 +34,7 @@ export default class ColumnChart {
             return list + `<div style="--value: ${Math.floor(value)}" data-tooltip="${persent.toFixed()}%"></div>`
         }, '');
 
-        if(newData) {
+        if (newData) {
             const element = document.querySelector('[data-element = "body"]');
 
             element.innerHTML = list;
