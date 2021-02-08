@@ -3,7 +3,6 @@ export default class ColumnChart {
         Object.assign(this, args);
 
         this.chartHeight = 50;
-
         this.render();
     }
 
