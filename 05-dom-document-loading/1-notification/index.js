@@ -23,16 +23,18 @@ export default class NotificationMessage {
         </div>`;
     }
 
-    show(container = '') {
+    show(container = document.body) {
         this.destroy();
         this.remove();
 
-        const element = container || document.createElement('div');
+        const element = document.createElement('div');
 
         element.innerHTML = this.template;
         NotificationMessage.message = element.firstElementChild;
 
         this.element = element.firstElementChild;
+
+        container.append(this.element);
 
         NotificationMessage.timeout = setTimeout(this.destroy, this.duration);
     }
