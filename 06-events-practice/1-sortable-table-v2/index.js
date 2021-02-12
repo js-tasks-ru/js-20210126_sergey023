@@ -8,15 +8,18 @@ export default class SortableTable extends SortableTableDefault{
     }
 
     addEvents() {
+        let sortedColumn = '';
+
         Array.from(this.subElements.header.children).map(column => {
             if(column.dataset.sortable !== 'false') {
                 column.addEventListener('pointerdown',(event) => {this.updateColumn(column, event.currentTarget)});
+
+                if(!sortedColumn) {
+                    sortedColumn = column;
+                }
             }
         });
 
-        const {children} = this.subElements.header;
-        const [title] = children;
-
-        title.dispatchEvent(new MouseEvent('pointerdown'));
+        sortedColumn.dispatchEvent(new MouseEvent('pointerdown'));
     }
 }

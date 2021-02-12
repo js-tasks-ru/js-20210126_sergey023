@@ -88,7 +88,7 @@ export default class SortableTable {
 
     get templateHeader() {
         return this.header.map(item => {
-            return `<div class="sortable-table__cell" data-id="${item.id}" data-sortable="${item.sortable}" >
+            return `<div class="sortable-table__cell" data-id="${item.id}" data-sortable=${item.sortable} >
                 <span>${item.title}</span>
                 ${this.templateArrow(item.id) || ''}
             </div>`;
