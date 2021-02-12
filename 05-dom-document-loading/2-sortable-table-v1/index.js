@@ -72,18 +72,18 @@ export default class SortableTable {
 
     get templateBody() {
         return this.data.map(item => {
-            const image = item.images && `<div class="sortable-table__cell">
+            const image = item.images ? `<div class="sortable-table__cell">
                 <img class="sortable-table-image" alt="Image" src="${item.images}">
-            </div>`;
-            const quantity = item.quantity && `<div class="sortable-table__cell">${item.quantity}</div>`;
-            const sales = item.sales && `<div class="sortable-table__cell">${item.sales}</div>`;
+            </div>` : '';
+            const quantity = item.quantity ? `<div class="sortable-table__cell">${item.quantity}</div>` : '';
+            const sales = item.sales ? `<div class="sortable-table__cell">${item.sales}</div>` : '';
 
             return `<a href="/products/${item.id}" class="sortable-table__row">
-                ${image || ''}
+                ${image}
                 <div class="sortable-table__cell">${item.title}</div>
-                ${quantity || ''}
+                ${quantity}
                 <div class="sortable-table__cell">${item.price}</div>
-                ${sales || ''}
+                ${sales}
              </a>`;
         }).join('');
     }
