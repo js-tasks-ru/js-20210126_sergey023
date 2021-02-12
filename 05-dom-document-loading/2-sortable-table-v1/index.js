@@ -33,6 +33,30 @@ export default class SortableTable {
         this.subElements.body ? this.subElements.body.innerHTML = this.templateBody : '';
     }
 
+    updateColumn(column, currentElement) {
+        const sortedParam = document.querySelector('[data-order]');
+
+        if(!sortedParam) {
+            currentElement.dataset.order = 'asc';
+            this.sort(column.dataset.id, 'asc');
+            return;
+        }
+
+        switch (sortedParam.dataset.order) {
+            case 'asc':
+                currentElement.dataset.order = 'desc';
+                this.sort(column.dataset.id, 'desc');
+                break;
+            case 'desc':
+                currentElement.dataset.order = 'asc';
+                this.sort(column.dataset.id, 'asc');
+                break;
+        }
+
+        if(sortedParam !== currentElement) {
+            sortedParam.removeAttribute('data-order');
+        }
+    }
 
     render() {
         const element = document.createElement('div');
@@ -64,10 +88,17 @@ export default class SortableTable {
 
     get templateHeader() {
         return this.header.map(item => {
-            return `<div class="sortable-table__cell" data-id="${item.id}" data-sortable="${item.sortable}">
+            return `<div class="sortable-table__cell" data-id="${item.id}" data-sortable="${item.sortable}" >
                 <span>${item.title}</span>
+                ${this.templateArrow(item.id) || ''}
             </div>`;
         }).join('');
+    }
+
+    templateArrow(title) {
+        return `<span data-element="arrow" class="sortable-table__sort-arrow">
+            <span class="sort-arrow"></span>
+        </span>`;
     }
 
     get templateBody() {

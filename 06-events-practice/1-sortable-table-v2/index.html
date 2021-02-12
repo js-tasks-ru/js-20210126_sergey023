@@ -1,0 +1,39 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="module">
+  import SortableTable from './index.js';
+  import data from './products-data.js';
+
+  const header = [
+  {
+    id: 'title',
+    title: 'Name',
+    sortable: true,
+    sortType: 'string'
+  },
+  {
+    id: 'price',
+    title: 'Price',
+    sortable: true,
+    sortType: 'number'
+  },
+  {
+    id: 'sales',
+    title: 'Sales',
+    sortable: true,
+    sortType: 'number'
+  },
+  ];
+
+  const sortableTable = new SortableTable(header, { data });
+
+  root.append(sortableTable.element);
+</script>
+</body>
