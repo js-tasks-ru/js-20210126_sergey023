@@ -73,7 +73,7 @@ export default class SortableTable {
     get templateBody() {
         return this.data.map(item => {
             const image = item.images ? `<div class="sortable-table__cell">
-                <img class="sortable-table-image" alt="Image" src="${item.images}">
+                <img class="sortable-table-image" alt="Image" src="${item.images[0].url}">
             </div>` : '';
             const quantity = item.quantity ? `<div class="sortable-table__cell">${item.quantity}</div>` : '';
             const sales = item.sales ? `<div class="sortable-table__cell">${item.sales}</div>` : '';
