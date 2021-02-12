@@ -90,12 +90,12 @@ export default class SortableTable {
         return this.header.map(item => {
             return `<div class="sortable-table__cell" data-id="${item.id}" data-sortable=${item.sortable} >
                 <span>${item.title}</span>
-                ${this.templateArrow(item.id) || ''}
+                ${this.templateArrow}
             </div>`;
         }).join('');
     }
 
-    templateArrow(title) {
+    get templateArrow() {
         return `<span data-element="arrow" class="sortable-table__sort-arrow">
             <span class="sort-arrow"></span>
         </span>`;

@@ -14,9 +14,7 @@ export default class SortableTable extends SortableTableDefault{
             if(column.dataset.sortable !== 'false') {
                 column.addEventListener('pointerdown',(event) => {this.updateColumn(column, event.currentTarget)});
 
-                if(!sortedColumn) {
-                    sortedColumn = column;
-                }
+                !sortedColumn ? sortedColumn = column : '';
             }
         });
 
