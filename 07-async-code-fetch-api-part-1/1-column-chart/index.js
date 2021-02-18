@@ -11,8 +11,8 @@ export default class ColumnChart{
     constructor({
         url = '',
         range = {
-            from: new Date(Date.now() - 365),
-            to: Date.now(),
+            from: new Date(),
+            to: new Date(),
         },
         value = 0,
         label = '',
@@ -24,7 +24,6 @@ export default class ColumnChart{
         this.value = value;
         this.link = link;
         this.range = range;
-
         this.formatHeading = formatHeading;
         this.chartHeight = 50;
 
@@ -32,43 +31,31 @@ export default class ColumnChart{
         ColumnChart.dashboardElements[label] = this;
 
         this.render();
-
         this.loadData(this.range.from, this.range.to);
     }
 
-    async loadData(dateFrom, dateTo, component, flag) {
+    async loadData(dateFrom, dateTo) {
         const attr = {
             from: dateFrom.toISOString(),
             to: dateTo.toISOString()
         }
 
         const link = this.linkAttributes(attr, this.url);
-
         const data = await fetchJson(link);
 
-
-        if (flag) {
-            this.updateS(dateFrom, dateTo);
-        }
-
-        if(component) {
-            component.data =  Object.values(data);
-        } else {
-            this.data = Object.values(data);
-            this.getList(this.data);
-        }
-    }
-
-    updateS(dateFrom, dateTo) {
-        const dashboardsData = {};
-
-        for (const [key, value] of Object.entries(ColumnChart.dashboards)) {
-            dashboardsData[key] = this.loadData(dateFrom, dateTo, ColumnChart.dashboardElements[key]);
-        }
+        this.getList(Object.values(data));
     }
 
     async update(dateFrom, dateTo) {
-        const wait =  await this.loadData(dateFrom, dateTo, '', true);
+        await this.loadData(dateFrom, dateTo);
+
+        const dashboardsData = {};
+
+        for (const [key, value] of Object.entries(ColumnChart.dashboards)) {
+            if (ColumnChart.dashboardElements[key] !== this) {
+                ColumnChart.dashboardElements[key].loadData(dateFrom, dateTo);
+            }
+        }
     }
 
     linkAttributes(attr, path = this.url) {
@@ -81,25 +68,21 @@ export default class ColumnChart{
         return url.href;
     }
 
-    getList(data = {}) {
-        const maxElement = this.data && Math.max(...this.data);
-        const list = this.data && this.data.reduce((list,item) => {
+    getList(data) {
+        const maxElement = data && Math.max(...data);
+        const list = data && data.reduce((list,item) => {
             const value = item * (this.chartHeight / maxElement);
             const persent = item / maxElement * 100;
 
             return list + `<div style="--value: ${Math.floor(value)}" data-tooltip="${persent.toFixed()}%"></div>`
         }, '');
 
-        if (Object.values(data).length) {
+        if (data.length){
             this.element.classList.add('column-chart_loading');
             this.subElements.body.innerHTML = list;
-            this.subElements.header.innerHTML = this.data.reduce((accum, item) => (accum + item), 0);
+            this.subElements.header.innerHTML = data.reduce((accum, item) => (accum + item), 0);
             this.element.classList.remove('column-chart_loading');
-
-            return;
         }
-
-        return list;
     }
 
     getLink() {
@@ -116,27 +99,18 @@ export default class ColumnChart{
         }, {});
     }
 
-
-    remove() {
-        this.element.remove();
-    }
-
-    destroy() {
-        this.remove();
-    }
-
     render() {
         const element = document.createElement('div');
 
         element.innerHTML = `
-            <div class="column-chart ${this.data ? '' : 'column-chart_loading'}" style="--chart-height: 50">
+            <div class="column-chart column-chart_loading" style="--chart-height: 50">
                 <div class="column-chart__title">
                     Total ${this.label}
                     ${this.getLink() || ''}
                 </div>
                 <div class="column-chart__container">
                     <div data-element="header" class="column-chart__header"></div>
-                    <div data-element="body" class="column-chart__chart">${this.getList() || ''}</div>
+                    <div data-element="body" class="column-chart__chart"></div>
                 </div>
             </div>`
         ;
@@ -144,6 +118,14 @@ export default class ColumnChart{
         this.element = element.firstElementChild;
 
         this.subElements = this.getSubElements(this.element);
+    }
+
+    remove() {
+        this.element.remove();
+    }
+
+    destroy() {
+        this.remove();
     }
 }
 
