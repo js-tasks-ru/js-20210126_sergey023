@@ -49,8 +49,6 @@ export default class ColumnChart{
     async update(dateFrom, dateTo) {
         await this.loadData(dateFrom, dateTo);
 
-        const dashboardsData = {};
-
         for (const [key, value] of Object.entries(ColumnChart.dashboards)) {
             if (ColumnChart.dashboardElements[key] !== this) {
                 ColumnChart.dashboardElements[key].loadData(dateFrom, dateTo);
