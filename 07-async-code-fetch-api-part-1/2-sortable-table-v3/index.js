@@ -59,7 +59,7 @@ export default class SortableTable {
         this.subElements.body.insertAdjacentHTML('beforeend', this.templateBody(data));
         this.enableLoad = true;
 
-        this.toggleAxillary(false);
+        this.toggleAxillary();
     }
 
     updateSort(data) {
@@ -68,7 +68,7 @@ export default class SortableTable {
         this.subElements.body.insertAdjacentHTML('beforeend', this.templateBody(data));
         this.enableLoad = true;
 
-        this.toggleAxillary(false);
+        this.toggleAxillary();
     }
 
     template() {
