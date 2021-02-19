@@ -58,6 +58,8 @@ export default class SortableTable {
         this.data = [...this.data, ...data];
         this.subElements.body.insertAdjacentHTML('beforeend', this.templateBody(data));
         this.enableLoad = true;
+
+        this.toggleAxillary(false);
     }
 
     updateSort(data) {
@@ -65,6 +67,8 @@ export default class SortableTable {
         this.subElements.body.innerHTML = '';
         this.subElements.body.insertAdjacentHTML('beforeend', this.templateBody(data));
         this.enableLoad = true;
+
+        this.toggleAxillary(false);
     }
 
     template() {
@@ -73,7 +77,23 @@ export default class SortableTable {
                 <div data-element="header" class="sortable-table__header sortable-table__row">
                     ${this.templateHeader()}
                 </div>
-                <div data-element="body" class="sortable-table__body"></div>
+                <div data-element="body" class="sortable-table__body">
+                </div>
+                ${this.templateLoading()}
+                ${this.templateEmpty()}
+            </div>
+        </div>`;
+    }
+
+    templateLoading() {
+        return `<div data-element="loading" class="loading-line sortable-table__loading-line"></div>`;
+    }
+
+    templateEmpty() {
+        return `<div data-element="emptyPlaceholder" class="sortable-table__empty-placeholder" hidden>
+            <div>
+                <p>No products satisfies your filter criteria</p>
+                <button type="button" class="button-primary-outline">Reset all filters</button>
             </div>
         </div>`;
     }
@@ -129,10 +149,33 @@ export default class SortableTable {
         this.urlParam['_sort'] = id;
         this.urlParam['_order'] = sort;
 
+        console.log(this.subElements.loading); 
+
+        this.toggleAxillary(true);
+
         const data = await this.loadData();
+
+        if (!data.length) {
+            this.toggleAxillary(false, true);
+
+            return;
+        }
 
         this.updateSort(data);
     }
+
+    toggleAxillary(toggle, empty) {
+        if (toggle) {
+            this.subElements.loading.removeAttribute('hidden');
+        } else {
+            this.subElements.loading.hidden = true;
+        }
+
+        if (empty) {
+            this.subElements.emptyPlaceholder.removeAttribute('hidden');
+        }
+
+    } 
 
     addEvents() {
         this.subElements.header.addEventListener('pointerdown',(event) => {
@@ -157,12 +200,18 @@ export default class SortableTable {
             let windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
 
             if (windowRelativeBottom < document.documentElement.clientHeight + 10 && this.enableLoad) {
+                this.toggleAxillary(true);
                 this.enableLoad = false;
-
                 this.urlParam['_start'] += 60;
                 this.urlParam['_end'] += 60;
 
                 const data = await this.loadData();
+
+                if (!data.length) {
+                    this.toggleAxillary(false, true);
+
+                    return;
+                }
 
                 this.update(data);
             }
