@@ -161,6 +161,7 @@ body {
 
 .sortable-table__loading-line {
   grid-column: 1 / 7;
+  display: none;
   margin: 16px;
   --loading-line-height: 20px;
 }
