@@ -44,16 +44,6 @@ export default class ColumnChart{
         await this.loadData(dateFrom, dateTo);
     }
 
-    linkAttributes(attr, path = this.url) {
-        const url = new URL(path, globalUrl);
-
-        for (const [key, value] of Object.entries(attr)) {
-            url.searchParams.set(key, value);
-        }
-
-        return url.href;
-    }
-
     getList(data) {
         const maxElement = data && Math.max(...data);
         const list = data && data.reduce((list,item) => {
