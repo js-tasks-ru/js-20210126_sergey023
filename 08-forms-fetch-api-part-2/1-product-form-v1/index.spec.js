@@ -102,6 +102,8 @@ describe('forms-fetch-api-part-2/product-form-v1', () => {
 
     const [event] = spyDispatchEvent.mock.calls;
 
+    console.log(event);
+
     expect(event[0].type).toEqual('product-updated');
   });
 
