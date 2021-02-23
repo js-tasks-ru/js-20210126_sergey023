@@ -3,9 +3,6 @@ import fetchJson from './utils/fetch-json.js';
 const globalUrl = 'https://course-js.javascript.ru';
 
 export default class ColumnChart{
-    static dashboards = {};
-    static dashboardElements = {};
-
     subElements = {};
 
     constructor({
@@ -27,9 +24,6 @@ export default class ColumnChart{
         this.formatHeading = formatHeading;
         this.chartHeight = 50;
 
-        ColumnChart.dashboards[label] = url;
-        ColumnChart.dashboardElements[label] = this;
-
         this.render();
         this.loadData(this.range.from, this.range.to);
     }
@@ -48,12 +42,6 @@ export default class ColumnChart{
 
     async update(dateFrom, dateTo) {
         await this.loadData(dateFrom, dateTo);
-
-        for (const [key, value] of Object.entries(ColumnChart.dashboards)) {
-            if (ColumnChart.dashboardElements[key] !== this) {
-                ColumnChart.dashboardElements[key].loadData(dateFrom, dateTo);
-            }
-        }
     }
 
     linkAttributes(attr, path = this.url) {
