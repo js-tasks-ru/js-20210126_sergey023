@@ -1,4 +1,4 @@
-import SortableList from '../../2-sortable-list/src/index.js';
+import SortableList from '../2-sortable-list/index.js';
 import escapeHtml from './utils/escape-html.js';
 import fetchJson from './utils/fetch-json.js';
 
@@ -52,7 +52,7 @@ export default class ProductForm {
       this.element = container.firstElementChild;
       this.subElements = this.getSubElements(this.element);
 
-      this.productPictureItem();
+    //   this.productPictureItem();
       this.options();
 
       this.subElements.productForm.addEventListener('input', event => {
@@ -106,8 +106,33 @@ export default class ProductForm {
           this.save();
       });
 
-      return this.element;
+    const sortableList = new SortableList({
+        items: this.productData.images.map(item => this.productPictureItem(item))
+    });
+
+    this.element.querySelector('[data-element = "imageListContainer"]').append(sortableList.element);
+
+    return this.element;
   }
+
+  productPictureItem(item) {
+    const element = document.createElement('div');
+
+    element.innerHTML = `<li class="products-edit__imagelist-item " style="">
+        <input type="hidden" name="url" value="${item.url}">
+        <input type="hidden" name="source" value="${item.source}">
+        <span>
+            <img src="icon-grab.svg" data-grab-handle="" alt="grab">
+            <img class="sortable-table__cell-img" alt="Image" src="${item.url}">
+            <span>${item.source}</span>
+        </span>
+        <button type="button">
+            <img src="icon-trash.svg" data-delete-handle="" alt="delete">
+        </button>
+    </li>`;
+
+    return element.firstElementChild;
+}
 
   getSubElements(element) {
       const elements = element.querySelectorAll('[data-element]');
@@ -153,25 +178,6 @@ export default class ProductForm {
           <label class="form-label">Описание</label>
           <textarea required="" class="form-control" id="description" name="description" data-element="productDescription" placeholder="Описание товара">${this.productData.description}</textarea>
       </div>`;
-  }
-
-  productPictureItem() {
-      const pictureHTML = this.productData.images.map(item => {return `<li class="products-edit__imagelist-item sortable-list__item" style="">
-          <input type="hidden" name="url" value="${item.url}">
-          <input type="hidden" name="source" value="${item.source}">
-          <span>
-              <img src="icon-grab.svg" data-grab-handle="" alt="grab">
-              <img class="sortable-table__cell-img" alt="Image" src="${item.url}">
-              <span>${item.source}</span>
-          </span>
-          <button type="button">
-              <img src="icon-trash.svg" data-delete-handle="" alt="delete">
-          </button>
-      </li>`});
-
-      this.element.querySelector('[data-element = "imageListContainer"]').innerHTML = `<ul class="sortable-list">
-          ${pictureHTML.join('')}
-      </ul>`;
   }
 
   get productPicture() {
