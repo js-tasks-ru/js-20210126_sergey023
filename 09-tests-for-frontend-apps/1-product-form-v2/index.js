@@ -21,7 +21,7 @@ export default class ProductForm {
   subElements = [];
 
   constructor (productId) {
-      this.productId = productId;
+    this.productId = productId;
   }
 
   async render () {
@@ -52,7 +52,6 @@ export default class ProductForm {
       this.element = container.firstElementChild;
       this.subElements = this.getSubElements(this.element);
 
-    //   this.productPictureItem();
       this.options();
 
       this.subElements.productForm.addEventListener('input', event => {
