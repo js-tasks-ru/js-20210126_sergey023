@@ -41,11 +41,9 @@ export default class Page {
         element.innerHTML = this.template();
 
         this.element = element.firstElementChild;
-
         this.subElements = this.getSubElements(this.element);
 
         this.updateComponent();
-
         this.element.addEventListener('date-select', this.initEvent);
 
         return this.element;
