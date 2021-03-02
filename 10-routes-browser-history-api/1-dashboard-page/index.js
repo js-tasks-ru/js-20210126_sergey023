@@ -133,7 +133,8 @@ export default class Page {
     }
 
     remove() {
-        this.element.remove();
         this.element.removeEventListener('date-select', this.initEvent);
+
+        this.element.remove();
     }
 }
