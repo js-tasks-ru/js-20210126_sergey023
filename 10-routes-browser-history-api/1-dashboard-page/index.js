@@ -65,11 +65,7 @@ export default class Page {
                 <h2 class="page-title">Панель управления</h2>
                 <div class="rangepicker" data-element="rangePicker"></div>
             </div>
-            <div class="dashboard__charts" data-element="columnChart">
-                <div class="column-chart dashboard__chart_orders" data-element="ordersChart"></div>
-                <div class="column-chart dashboard__chart_sales" data-element="salesChart"></div>
-                <div class="column-chart dashboard__chart_orders" data-element="customersChart"></div>
-            </div>
+            <div class="dashboard__charts" data-element="columnChart"></div>
             <h3 class="block-title">Лидеры продаж</h3>
             <div class="sortable-table" data-element="sortableTable"></div>
         </div>`;
