@@ -8,7 +8,7 @@ import fetchJson from './utils/fetch-json.js';
 const BACKEND_URL = 'https://course-js.javascript.ru/';
 
 export default class Page {
-    element = '';
+    element;
     subElements;
 
     updateComponent(date) {
@@ -140,7 +140,6 @@ export default class Page {
 
     remove() {
         this.element.remove();
-
         this.element.removeEventListener('date-select', this.initEvent);
     }
 }
